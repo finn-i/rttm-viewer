@@ -2,23 +2,39 @@ import React, { useEffect, useState } from 'react';
 
 const DropArea = ({ setFile }) => {
 
-  const [data, setData] = useState([]);
+	const [hovering, setHovering] = useState(false);
 
   const handleDrop = (evt) => {
-    console.log("File(s) dropped.");
     evt.preventDefault();
     let file = evt.dataTransfer.files[0];
-    console.log(file);
 		setFile(file);
+		setHovering(false);
   }
 
-  const handleDragOver = (evt) => {
+  const handleDragEnter = (evt) => {
     evt.preventDefault();
+		setHovering(true);
+  }
+	
+	const handleDragOver = (evt) => {
+    evt.preventDefault();
+  }
+	
+	const handleDragLeave = (evt) => {
+    evt.preventDefault();
+		setHovering(false);
   }
   
 
   return (
-    <div id="drop-area" onDrop={ handleDrop } onDragOver={ handleDragOver }></div>
+    <div 
+			id="drop-area" 
+			className={ hovering ? "drag-over" : null } 
+			onDrop={ handleDrop } 
+			onDragOver = { handleDragOver} 
+			onDragEnter={ handleDragEnter } 
+			onDragLeave={ handleDragLeave } 
+		><span>Choose a file or drag it here</span></div>
   );
 }
 

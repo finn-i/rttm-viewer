@@ -20,8 +20,15 @@ body {
   height: 15vh;
   margin: auto;
   margin-top: 4vh;
+	color: #eee;
+	font-size: 24px;
+	font-family: 'Montserrat';
+	display: flex;
+	justify-content: center; /* Align horizontal */
+	align-items: center; /* Align vertical */
 }
 
-#drop-area .dragOver {
-  border: 4px dashed slateblue;
+.drag-over {
+  border: 4px dashed slateblue !important;
+	background-color: red;
 }

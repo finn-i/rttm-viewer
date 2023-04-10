@@ -73,7 +73,6 @@ const Viewer = ({ file }) => {
    }
   };
   
-
   return (
     <div id="viewer-container">
       <Bar type="bar" options = { options } data = { graphData } />;
