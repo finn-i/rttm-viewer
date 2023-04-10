@@ -5,14 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: rgba(30, 30, 30); */
-  background-color: rgba(50, 50, 50);
-
+  background-color: rgba(30, 30, 30);
+  padding: 3rem;
 }
 
 #viewer-container {
   height: 20vh;
-  /* border: 1px solid #555; */
 }
 
 #drop-area {

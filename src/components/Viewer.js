@@ -5,7 +5,7 @@ import { Bar } from 'react-chartjs-2';
 import rttm from './test.rttm';
 import { computeHeadingLevel } from '@testing-library/react';
 
-const Viewer = () => {
+const Viewer = ({ file }) => {
 
   const [data, setData] = useState([]);
   const [graphData, setGraphData] = useState({ datasets: [] });
@@ -17,37 +17,40 @@ const Viewer = () => {
   }
 
   useEffect(() => {
-    fetch(rttm)
-    .then(r => r.text())
-    .then(text => {
-      const arr = text.split("\n");
-      let filename = undefined;
-      let out = [] || undefined;
-      for (const idx in arr) {
-        const line = arr[idx].split(" ");
-        filename = line[1];
-        out.push({
-          speaker: line[7],
-          start: parseFloat(line[3]),
-          end: parseFloat(line[3]) + parseFloat(line[4])
-        });
-      }
-      setData(out);
-      const labels = [... new Set(out.map(x => x.speaker))];
-      const outobj = {
-        labels: [filename],
-        datasets: out.map(elem => 
-          ({
-            label: elem.speaker,
-            data: [[elem.start, elem.end]],
-            backgroundColor: getColour(elem.speaker, labels),
-            barThickness: 50,
-          })
-        )
-      }
-      setGraphData(outobj);
-    });
-  }, []);
+		if (file) {
+			console.log("INNN")
+			let reader = new FileReader();
+			reader.onload = (e) => {
+				const arr = e.target.result.split("\n");
+				let filename = undefined;
+				let out = [] || undefined;
+				for (const idx in arr) {
+					const line = arr[idx].split(" ");
+					filename = line[1];
+					out.push({
+						speaker: line[7],
+						start: parseFloat(line[3]),
+						end: parseFloat(line[3]) + parseFloat(line[4])
+					});
+				}
+				setData(out);
+				const labels = [... new Set(out.map(x => x.speaker))];
+				const outobj = {
+					labels: [filename],
+					datasets: out.map(elem => 
+						({
+							label: elem.speaker,
+							data: [[elem.start, elem.end]],
+							backgroundColor: getColour(elem.speaker, labels),
+							barThickness: 50,
+						})
+					)
+				}
+				setGraphData(outobj);
+			}
+			reader.readAsText(file);
+		}
+  }, [file]);
 
   const options = {
     indexAxis: 'y',
@@ -55,7 +58,7 @@ const Viewer = () => {
     responsive: true,
     scales: {
       x: { ticks: { color: "#eee" }, grid: { color: '#555', drawBorder: false } },
-      y: { stacked: true, ticks: { color: "#eee", fontSize: 30 }, grid: { display: false } },
+      y: { stacked: true, ticks: { color: "#eee" }, grid: { display: false } },
     },
     plugins: {
       tooltip: {

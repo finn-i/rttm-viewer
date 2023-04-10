@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const DropArea = () => {
+const DropArea = ({ setFile }) => {
 
   const [data, setData] = useState([]);
 
@@ -9,6 +9,7 @@ const DropArea = () => {
     evt.preventDefault();
     let file = evt.dataTransfer.files[0];
     console.log(file);
+		setFile(file);
   }
 
   const handleDragOver = (evt) => {
