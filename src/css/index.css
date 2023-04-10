@@ -14,8 +14,8 @@ body {
 }
 
 #drop-area {
-  border: 4px dashed aquamarine;
-  background-color: rgba(255, 255, 255, 0.1);
+  border: 4px dashed rgb(125, 115, 187);
+  background-color: rgba(255, 255, 255, 0.075);
   width: 60vw;
   height: 15vh;
   margin: auto;
@@ -29,6 +29,6 @@ body {
 }
 
 .drag-over {
-  border: 4px dashed slateblue !important;
-	background-color: red;
+	/* border: 4px dashed rgb(70, 57, 157) !important; */
+	background-color: rgba(255, 255, 255, 0.15) !important;
 }

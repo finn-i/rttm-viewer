@@ -18,7 +18,6 @@ const Viewer = ({ file }) => {
 
   useEffect(() => {
 		if (file) {
-			console.log("INNN")
 			let reader = new FileReader();
 			reader.onload = (e) => {
 				const arr = e.target.result.split("\n");
