@@ -34,7 +34,7 @@ const DropArea = ({ setFile }) => {
 			onDragOver = { handleDragOver} 
 			onDragEnter={ handleDragEnter } 
 			onDragLeave={ handleDragLeave } 
-		><span>Choose a file or drag it here</span></div>
+		><span><a>Choose</a> a file or drag it here</span></div>
   );
 }
 

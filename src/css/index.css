@@ -36,9 +36,16 @@ body {
 	display: flex;
 	justify-content: center; /* Align horizontal */
 	align-items: center; /* Align vertical */
+  transition: 0.2s ease-in-out;
+}
+
+#drop-area a:hover {
+  cursor: pointer;
+  color: aquamarine;
 }
 
 .drag-over {
 	/* border: 4px dashed rgb(70, 57, 157) !important; */
 	background-color: rgba(255, 255, 255, 0.15) !important;
+  font-size: 23px !important;
 }
