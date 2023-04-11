@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import "chart.js/auto";
+import Chart from 'chart.js/auto';
 
 import { Bar } from 'react-chartjs-2';
 
 const Viewer = ({ file }) => {
+
+  Chart.defaults.font.family = "Montserrat";
+  Chart.defaults.font.size = 16;
 
   const [graphData, setGraphData] = useState([{ datasets: [] }]);
 
@@ -60,11 +63,11 @@ const Viewer = ({ file }) => {
 			let reader = new FileReader();
 			reader.onload = (e) => {
 				const arr = e.target.result.split("\n");
-				let filename = undefined;
+				let filename = file.name;
 				let out = [] || undefined;
 				for (const idx in arr) {
 					const line = arr[idx].split(" ");
-					filename = line[1];
+					// filename = line[1];
 					out.push({
 						speaker: line[7],
 						start: parseFloat(line[3]),
