@@ -7,6 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: rgba(30, 30, 30);
   padding: 3rem;
+  color: #eee;
 }
 
 #root {
@@ -20,7 +21,20 @@ body {
 }
 
 .graph {
-  height: 20vh;
+  display: flex;
+  flex-direction: row;
+  height: 15vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.graph span {
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.graph span:hover {
+  color: #aaa;
 }
 
 #drop-area {
@@ -30,12 +44,11 @@ body {
   height: 15vh;
   margin: auto;
   margin-top: 4vh;
-	color: #eee;
 	font-size: 24px;
 	font-family: 'Montserrat';
 	display: flex;
-	justify-content: center; /* Align horizontal */
-	align-items: center; /* Align vertical */
+	justify-content: center;
+	align-items: center;
   transition: 0.2s ease-in-out;
 }
 

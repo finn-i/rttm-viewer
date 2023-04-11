@@ -15,8 +15,18 @@ const Viewer = ({ file }) => {
 
   const addGraphData = (item) => {
     let newGraphData = [...graphData, item];
-    if (!graphData[0].labels) newGraphData.shift();
+    if (!graphData[0] || !graphData[0].labels) newGraphData.shift(); // remove initial placeholder data
     setGraphData(newGraphData);
+  }
+
+  const removeGraphData = (idx) => {
+    if (graphData.length === 1) {
+      setGraphData([{ datasets: [] }]);
+    } else {
+      let newGraphData = [...graphData];
+      newGraphData.splice(idx, 1);
+      setGraphData(newGraphData);
+    }
   }
 
   const options = {
@@ -37,7 +47,12 @@ const Viewer = ({ file }) => {
       legend: {
         display: false
       }
-   }
+    },
+    elements: {
+      bar: {
+        borderSkipped: false // Apply setting to all bar datasets
+      }
+    }
   };
 
   useEffect(() => {
@@ -65,6 +80,9 @@ const Viewer = ({ file }) => {
 							data: [[elem.start, elem.end]],
 							backgroundColor: getColour(elem.speaker, labels),
 							barThickness: 50,
+              // borderWidth: 1,
+              borderColor: "#eee",
+              hoverBorderWidth: 2
 						})
 					)
 				}
@@ -77,9 +95,10 @@ const Viewer = ({ file }) => {
   return (
     <>
       {
-        graphData.map((item, idx) => (
-          <div className="graph">
-            <Bar type="bar" options={ options } data={ item } key={ idx } />
+        graphData[0] && graphData[0].labels && graphData.map((item, idx) => (
+          <div className="graph" key={ idx }>
+            <Bar type="bar" options={ options } data={ item } />
+            <span onClick={() => removeGraphData(idx)} >✕</span>
           </div>
         ))
       }
