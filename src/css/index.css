@@ -9,7 +9,17 @@ body {
   padding: 3rem;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
 #viewer-container {
+  /* max-height: 80vh; */
+}
+
+.graph {
   height: 20vh;
 }
 

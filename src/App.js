@@ -8,7 +8,7 @@ const App = () => {
 
 	return (
 		<>
-			{file && <Viewer file={file} /> }
+			{file && <div id="viewer-container"> <Viewer file={file} /> </div> }
 			<DropArea setFile={setFile} />
 		</>
 	);  
