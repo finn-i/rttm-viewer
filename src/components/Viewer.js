@@ -10,7 +10,7 @@ const Viewer = ({ file }) => {
 
   const [graphData, setGraphData] = useState([{ datasets: [] }]);
 
-  const colours = ["#7B2D26", "#0B7A75", "#19535F", "#5E4C5A"]
+  const colours = ["#19535F", "#7B2D26", "#0B7A75", "#5E4C5A"]
 
   const getColour = (speaker, labels) => {
     return colours[labels.indexOf(speaker) % colours.length] + "E6  ";
@@ -83,8 +83,9 @@ const Viewer = ({ file }) => {
 							data: [[elem.start, elem.end]],
 							backgroundColor: getColour(elem.speaker, labels),
 							barThickness: 50,
-              // borderWidth: 1,
-              borderColor: "#eee",
+              borderWidth: 1,
+              borderColor: "#999",
+              hoverBorderColor: "#eee",
               hoverBorderWidth: 2
 						})
 					)

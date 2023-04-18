@@ -8,10 +8,14 @@ body {
   color: #eee;
 }
 
+h1 {
+  text-align: center;
+}
+
 #root {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  flex-wrap: nowrap;
+  flex-wrap: nowrap; */
 }
 
 #viewer-container {
@@ -54,6 +58,7 @@ body {
 #drop-area a:hover {
   cursor: pointer;
   color: aquamarine;
+  border-bottom: 1px solid aquamarine;
 }
 
 .drag-over {

@@ -8,7 +8,8 @@ const App = () => {
 
 	return (
 		<>
-			{file && <div id="viewer-container"> <Viewer file={file} /> </div> }
+			<h1>RTTM Viewer</h1>
+			{ file ? <div id="viewer-container"> <Viewer file={file} /> </div> : null }
 			<DropArea setFile={setFile} />
 		</>
 	);  
