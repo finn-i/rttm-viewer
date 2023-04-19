@@ -4,13 +4,13 @@ import DropArea from './components/DropArea.js';
 
 const App = () => {
 	
-  const [file, setFile] = useState(0);
+  const [files, setFiles] = useState([]);
 
 	return (
 		<>
 			<h1>RTTM Viewer</h1>
-			{ file ? <div id="viewer-container"> <Viewer file={file} /> </div> : null }
-			<DropArea setFile={setFile} />
+			{ files ? <div id="viewer-container"> <Viewer files={ files } /> </div> : null }
+			<DropArea files = { files } setFiles={ setFiles } />
 		</>
 	);  
 }

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-const DropArea = ({ setFile }) => {
+const DropArea = ({ files, setFiles }) => {
 
 	const [hovering, setHovering] = useState(false);
 
   const handleDrop = (evt) => {
     evt.preventDefault();
-    let file = evt.dataTransfer.files[0];
-		setFile(file);
+    const newFiles = Array.from(evt.dataTransfer.files);
+    setFiles([...files, ...newFiles]);
 		setHovering(false);
   }
 

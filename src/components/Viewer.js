@@ -3,7 +3,7 @@ import Chart from 'chart.js/auto';
 
 import { Bar } from 'react-chartjs-2';
 
-const Viewer = ({ file }) => {
+const Viewer = ({ files }) => {
 
   Chart.defaults.font.family = "Montserrat";
   Chart.defaults.font.size = 16;
@@ -13,12 +13,15 @@ const Viewer = ({ file }) => {
   const colours = ["#19535F", "#7B2D26", "#0B7A75", "#5E4C5A"]
 
   const getColour = (speaker, labels) => {
-    return colours[labels.indexOf(speaker) % colours.length] + "E6  ";
+    return colours[labels.indexOf(speaker) % colours.length] + "E6";
   }
 
   const addGraphData = (item) => {
     let newGraphData = [...graphData, item];
-    if (!graphData[0] || !graphData[0].labels) newGraphData.shift(); // remove initial placeholder data
+
+    if (!newGraphData[0] || !newGraphData[0].labels) {
+      newGraphData.shift(); // remove initial placeholder data
+    }
     setGraphData(newGraphData);
   }
 
@@ -59,42 +62,43 @@ const Viewer = ({ file }) => {
   };
 
   useEffect(() => {
-		if (file) {
-			let reader = new FileReader();
-			reader.onload = (e) => {
-				const arr = e.target.result.split("\n");
-				let filename = file.name;
-				let out = [] || undefined;
-				for (const idx in arr) {
-					const line = arr[idx].split(" ");
-					// filename = line[1];
-					out.push({
-						speaker: line[7],
-						start: parseFloat(line[3]),
-						end: parseFloat(line[3]) + parseFloat(line[4])
-					});
-				}
-				const labels = [... new Set(out.map(x => x.speaker))];
-				const outobj = {
-					labels: [filename],
-					datasets: out.map(elem => 
-						({
-							label: elem.speaker,
-							data: [[elem.start, elem.end]],
-							backgroundColor: getColour(elem.speaker, labels),
-							barThickness: 50,
-              borderWidth: 1,
-              borderColor: "#999",
-              hoverBorderColor: "#eee",
-              hoverBorderWidth: 2
-						})
-					)
-				}
-        addGraphData(outobj);
+		if (files) {
+      for (const file of files) { 
+			  let reader = new FileReader();
+			  reader.onload = (e) => {
+          const arr = e.target.result.split("\n");
+          let filename = file.name;
+          let out = [] || undefined;
+          for (const idx in arr) {
+            const line = arr[idx].split(" ");
+            out.push({
+              speaker: line[7],
+              start: parseFloat(line[3]),
+              end: parseFloat(line[3]) + parseFloat(line[4])
+            });
+          }
+          const labels = [... new Set(out.map(x => x.speaker))];
+          const outobj = {
+            labels: [filename],
+            datasets: out.map(elem => 
+              ({
+                label: elem.speaker,
+                data: [[elem.start, elem.end]],
+                backgroundColor: getColour(elem.speaker, labels),
+                barThickness: 50,
+                borderWidth: 1,
+                borderColor: "#999",
+                hoverBorderColor: "#eee",
+                hoverBorderWidth: 2
+              })
+            )
+          }
+          addGraphData(outobj);
+        }
+        reader.readAsText(file);
 			}
-			reader.readAsText(file);
 		}
-  }, [file]);
+  }, [files]);
   
   return (
     <>
