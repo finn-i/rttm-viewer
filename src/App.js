@@ -10,7 +10,7 @@ const App = () => {
 		<>
 			<h1>RTTM Viewer</h1>
 			{ files ? <div id="viewer-container"> <Viewer files={ files } /> </div> : null }
-			<DropArea files = { files } setFiles={ setFiles } />
+			<DropArea files={ files } setFiles={ setFiles } />
 		</>
 	);  
 }
