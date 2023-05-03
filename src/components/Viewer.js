@@ -17,10 +17,9 @@ const Viewer = ({ files }) => {
   }
 
   const addGraphData = (item) => {
-    console.log("addGraphData:")
     let newGraphData = [...graphData, item];
-    if (!newGraphData[0].labels) {
-      console.log("shifting")
+
+    if (!newGraphData[0] || !newGraphData[0].labels) {
       newGraphData.shift(); // remove initial placeholder data
     }
     setGraphData(newGraphData);
@@ -57,7 +56,7 @@ const Viewer = ({ files }) => {
     },
     elements: {
       bar: {
-        borderSkipped: false // apply setting to all bar datasets
+        borderSkipped: false // Apply setting to all bar datasets
       }
     }
   };
