@@ -8,6 +8,10 @@ body {
   color: #eee;
 }
 
+a {
+  color: #eee;
+}
+
 h1 {
   text-align: center;
 }
@@ -41,7 +45,9 @@ h1 {
 }
 
 #drop-area {
-  border: 4px dashed rgb(125, 115, 187);
+  border-image: linear-gradient(rgb(125, 115, 187), rgba(200, 50, 100)) 1;
+  border-width: 2px;
+  border-style: solid;
   background-color: rgba(255, 255, 255, 0.075);
   width: 60vw;
   height: 15vh;

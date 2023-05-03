@@ -17,9 +17,10 @@ const Viewer = ({ files }) => {
   }
 
   const addGraphData = (item) => {
+    console.log("addGraphData:")
     let newGraphData = [...graphData, item];
-
-    if (!newGraphData[0] || !newGraphData[0].labels) {
+    if (!newGraphData[0].labels) {
+      console.log("shifting")
       newGraphData.shift(); // remove initial placeholder data
     }
     setGraphData(newGraphData);
@@ -56,7 +57,7 @@ const Viewer = ({ files }) => {
     },
     elements: {
       bar: {
-        borderSkipped: false // Apply setting to all bar datasets
+        borderSkipped: false // apply setting to all bar datasets
       }
     }
   };
@@ -77,7 +78,7 @@ const Viewer = ({ files }) => {
               end: parseFloat(line[3]) + parseFloat(line[4])
             });
           }
-          const labels = [... new Set(out.map(x => x.speaker))];
+          const labels = [...new Set(out.map(x => x.speaker))];
           const outobj = {
             labels: [filename],
             datasets: out.map(elem => 
@@ -89,7 +90,7 @@ const Viewer = ({ files }) => {
                 borderWidth: 1,
                 borderColor: "#999",
                 hoverBorderColor: "#eee",
-                hoverBorderWidth: 2
+                hoverBorderWidth: 2,
               })
             )
           }
