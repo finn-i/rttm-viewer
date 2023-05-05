@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 
 import { Bar } from 'react-chartjs-2';
+import zoomPlugin from 'chartjs-plugin-zoom';
 
 const Viewer = ({ files }) => {
 
   Chart.defaults.font.family = "Montserrat";
   Chart.defaults.font.size = 16;
+  Chart.register(zoomPlugin);
 
   const [graphData, setGraphData] = useState([{ datasets: [] }]);
 
@@ -18,7 +20,6 @@ const Viewer = ({ files }) => {
 
   const addGraphData = (item) => {
     let newGraphData = [...graphData, item];
-
     if (!newGraphData[0] || !newGraphData[0].labels) {
       newGraphData.shift(); // remove initial placeholder data
     }
@@ -52,13 +53,25 @@ const Viewer = ({ files }) => {
       },
       legend: {
         display: false
+      },
+      zoom: {
+        zoom: {
+          wheel: {
+            enabled: true,
+            modifierKey: "ctrl",
+          },
+          mode: 'x',
+        },
+        pan: {
+          enabled: true,
+        }
       }
     },
     elements: {
       bar: {
         borderSkipped: false // Apply setting to all bar datasets
       }
-    }
+    },
   };
 
   useEffect(() => {

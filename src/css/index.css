@@ -23,7 +23,9 @@ h1 {
 }
 
 #viewer-container {
-  /* max-height: 80vh; */
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 .graph {
