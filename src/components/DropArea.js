@@ -49,4 +49,4 @@ const DropArea = ({ files, setFiles }) => {
   );
 }
 
-export default DropArea
+export default DropArea;

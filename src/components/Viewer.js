@@ -11,6 +11,7 @@ const Viewer = ({ files }) => {
   Chart.register(zoomPlugin);
 
   const [graphData, setGraphData] = useState([{ datasets: [] }]);
+  // const [graphData, setGraphData] = useState([]);
 
   const colours = ["#19535F", "#7B2D26", "#0B7A75", "#5E4C5A"]
 
@@ -18,13 +19,14 @@ const Viewer = ({ files }) => {
     return colours[labels.indexOf(speaker) % colours.length] + "E6";
   }
 
-  const addGraphData = (item) => {
-    let newGraphData = [...graphData, item];
-    if (!newGraphData[0] || !newGraphData[0].labels) {
-      newGraphData.shift(); // remove initial placeholder data
-    }
-    setGraphData(newGraphData);
-  }
+  // const addGraphData = (item) => {
+  //   let newGraphData = [...graphData, ...item];
+  //   // console.log(newGraphData)
+  //   if (!newGraphData[0] || !newGraphData[0].labels) {
+  //     newGraphData.shift(); // remove initial placeholder data
+  //   }
+  //   setGraphData(newGraphData);
+  // }
 
   const removeGraphData = (idx) => {
     if (graphData.length === 1) {
@@ -75,25 +77,24 @@ const Viewer = ({ files }) => {
   };
 
   useEffect(() => {
-		if (files) {
-      for (const file of files) { 
-			  let reader = new FileReader();
-			  reader.onload = (e) => {
-          const arr = e.target.result.split("\n");
-          let filename = file.name;
-          let out = [] || undefined;
-          for (const idx in arr) {
-            const line = arr[idx].split(" ");
-            out.push({
-              speaker: line[7],
-              start: parseFloat(line[3]),
-              end: parseFloat(line[3]) + parseFloat(line[4])
-            });
-          }
-          const labels = [...new Set(out.map(x => x.speaker))];
-          const outobj = {
+    if (!files) return;
+
+    const parseFile = async (file) => {
+      const content = await file.text();
+      const lines = content.split('\n');
+      const data = [];
+      const filename = file.name;
+
+      for (const line of lines) {
+        const lineArr = line.split(' ');
+        const start = parseFloat(lineArr[3]);
+        const end = parseFloat(lineArr[4]);
+        data.push({ speaker: lineArr[7], start: start, end: start + end });
+      }
+      const labels = [...new Set(data.map(x => x.speaker))];
+      const outobj = {
             labels: [filename],
-            datasets: out.map(elem => 
+            datasets: data.map(elem => 
               ({
                 label: elem.speaker,
                 data: [[elem.start, elem.end]],
@@ -106,19 +107,21 @@ const Viewer = ({ files }) => {
               })
             )
           }
-          addGraphData(outobj);
-        }
-        reader.readAsText(file);
-			}
-		}
+      setGraphData(prevData => [...prevData, outobj]);
+    }
+
+    for (const file of files) {
+      parseFile(file);
+    }
   }, [files]);
+
   
   return (
     <>
-      {
-        graphData[0] && graphData[0].labels && graphData.map((item, idx) => (
+      { 
+        graphData.length > 0 && graphData.map((item, idx) => item.labels && (
           <div className="graph" key={ idx }>
-            <Bar type="bar" options={ options } data={ item } />
+            <Bar key={JSON.stringify(item)} type="bar" options={ options } data={ item } />
             <span onClick={() => removeGraphData(idx)} >✕</span>
           </div>
         ))
