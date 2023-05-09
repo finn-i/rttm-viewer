@@ -107,7 +107,8 @@ const Viewer = ({ files }) => {
               })
             )
           }
-      setGraphData(prevData => [...prevData, outobj]);
+      // setGraphData(prevData => [...prevData, outobj]);
+      setData(outobj);
     }
 
     for (const file of files) {
@@ -115,6 +116,9 @@ const Viewer = ({ files }) => {
     }
   }, [files]);
 
+  const setData = (newData) => {
+    setGraphData(prevData => [...prevData, newData]);
+  };
   
   return (
     <>
