@@ -117,13 +117,22 @@ const Viewer = ({ files }) => {
   }, [files]);
 
   const setData = (newData) => {
-    setGraphData(prevData => [...prevData, newData]);
+    setGraphData(prevData => {
+      let found = false;
+      for (let i = 1; i < prevData.length; i++) {
+        if (prevData[i].labels[0] === newData.labels[0]) {
+          found = true;
+        }
+      }
+      if (!found) return [...prevData, newData];
+      else return [...prevData]
+    });
   };
   
   return (
     <>
       { 
-        graphData.length > 0 && graphData.map((item, idx) => item.labels && (
+        graphData && graphData.length > 0 && graphData.map((item, idx) => item.labels && (
           <div className="graph" key={ idx }>
             <Bar key={JSON.stringify(item)} type="bar" options={ options } data={ item } />
             <span onClick={() => removeGraphData(idx)} >✕</span>
