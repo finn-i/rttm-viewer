@@ -89,7 +89,7 @@ const Viewer = ({ files }) => {
         const lineArr = line.split(' ');
         const start = parseFloat(lineArr[3]);
         const end = parseFloat(lineArr[4]);
-        data.push({ speaker: lineArr[7], start: start, end: start + end });
+        data.push({ speaker: lineArr[7], start: start, end: start + end, locked: lineArr[9] });
       }
       const labels = [...new Set(data.map(x => x.speaker))];
       const outobj = {
@@ -104,8 +104,13 @@ const Viewer = ({ files }) => {
                 borderColor: "#999",
                 hoverBorderColor: "#eee",
                 hoverBorderWidth: 2,
+                ... (elem.locked === "1" && { // decorates locked regions
+                  borderColor: "red",
+                  borderWidth: 2
+                }),
+                locked: elem.locked,
               })
-            )
+            ),
           }
       // setGraphData(prevData => [...prevData, outobj]);
       setData(outobj);
