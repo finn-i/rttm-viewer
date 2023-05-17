@@ -13,20 +13,23 @@ const Viewer = ({ files }) => {
   const [graphData, setGraphData] = useState([{ datasets: [] }]);
   // const [graphData, setGraphData] = useState([]);
 
-  const colours = ["#19535F", "#7B2D26", "#0B7A75", "#5E4C5A"]
+  let colours = ["#7B2D26", "#ef8a62", "#543005", "#8c510a", "#67a9cf", "#2166ac"];
+  // let colours = ["#543005", "#8c510a", "#f5f5f5", "#c7eae5", "#35978f", "#01665e"];
+  // let colours = ["#19535F", "#7B2D26", "#0B7A75", "#5E4C5A", "#254441", "#EF3054", "#B2B09B", "#F9DB6D", "#00FFC5"];
+  // let colours = ["#19535F", "#7B2D26", "#0B7A75", "#5E4C5A"]; // original
+  let colourMap = [];
 
   const getColour = (speaker, labels) => {
-    return colours[labels.indexOf(speaker) % colours.length] + "E6";
+    let colour;
+    if (colourMap.some(e => e.speaker == speaker)) {
+      for (const item of colourMap) if (item.speaker == speaker) colour = item.colour;
+    }
+    else {
+      colour = colours[(colourMap.length) % colours.length] + "E6";
+      colourMap.push({speaker: speaker, colour: colour});
+    }
+    return colour;
   }
-
-  // const addGraphData = (item) => {
-  //   let newGraphData = [...graphData, ...item];
-  //   // console.log(newGraphData)
-  //   if (!newGraphData[0] || !newGraphData[0].labels) {
-  //     newGraphData.shift(); // remove initial placeholder data
-  //   }
-  //   setGraphData(newGraphData);
-  // }
 
   const removeGraphData = (idx) => {
     if (graphData.length === 1) {
@@ -43,7 +46,14 @@ const Viewer = ({ files }) => {
     maintainAspectRatio: false,
     responsive: true,
     scales: {
-      x: { ticks: { color: "#eee" }, grid: { color: '#555', drawBorder: false } },
+      x: { 
+        ticks: (ad) => { 
+          const canvasParent = ad.scale.ctx.canvas.parentElement;
+          if (Array.from(canvasParent.parentElement.children).indexOf(canvasParent) == canvasParent.parentElement.childElementCount-1) return { color: "#eee" }
+          else return { color: "transparent" }
+          }, 
+        grid: { color: '#555', drawBorder: false } 
+      },
       y: { stacked: true, ticks: { color: "#eee" }, grid: { display: false } },
     },
     plugins: {
@@ -121,16 +131,26 @@ const Viewer = ({ files }) => {
     }
   }, [files]);
 
+  const compare = (a, b) => {
+    if (a.labels && b.labels) {
+      if (a.labels[0] < b.labels[0]) return -1;
+      if ( a.labels[0] > b.labels[0]) return 1;
+    }
+    return 0;
+  }
+
   const setData = (newData) => {
     setGraphData(prevData => {
       let found = false;
+      let out;
       for (let i = 1; i < prevData.length; i++) {
         if (prevData[i].labels[0] === newData.labels[0]) {
           found = true;
         }
       }
-      if (!found) return [...prevData, newData];
-      else return [...prevData]
+      if (!found) out = [...prevData, newData];
+      else out = [...prevData];
+      return out.sort(compare);
     });
   };
   
