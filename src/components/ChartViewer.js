@@ -4,6 +4,10 @@ import { Bar } from "react-chartjs-2";
 import DropArea from "./DropArea.js";
 
 const ChartViewer = () => {
+
+  Chart.defaults.font.family = "Montserrat";
+  Chart.defaults.font.size = 16;
+  
   const [chartData, setChartData] = useState([]);
 
   const options = {

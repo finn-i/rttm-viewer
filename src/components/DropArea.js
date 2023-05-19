@@ -56,7 +56,6 @@ const DropArea = ({ setChartData }) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const rttmData = e.target.result;
-        console.log(files[i].name)
         const chartDataEntry = processRTTMData(rttmData, files[i].name);
         setChartData((prevChartData) => [...prevChartData, chartDataEntry]);
       };
@@ -74,8 +73,9 @@ const DropArea = ({ setChartData }) => {
         const start = parseFloat(cols[3]);
         const duration = parseFloat(cols[4]);
         const speaker = cols[7];
-        const locked = cols[9];
-        regionData.push({ start: start, end: start + duration, speaker: speaker, locked: locked });
+        const dur_lock = cols[9];
+        const spkr_lock = cols[10];
+        regionData.push({ start: start, end: start + duration, speaker: speaker, dur_lock: dur_lock, spkr_lock: spkr_lock });
       }
     });
 
@@ -91,11 +91,18 @@ const DropArea = ({ setChartData }) => {
           borderColor: "#999",
           hoverBorderColor: "#eee",
           hoverBorderWidth: 2,
-          ... (elem.locked === "1" && { // decorates locked regions
+          ... (elem.dur_lock === "1" && { // decorates duration_locked regions
             borderColor: "red",
-            borderWidth: 2
+            borderWidth: 3
           }),
-          locked: elem.locked,
+          ... (elem.spkr_lock === "1" && { // decorates speaker_locked regions
+            borderColor: "gold",
+            borderWidth: 3
+          }),
+          ... (elem.spkr_lock === "1" && elem.dur_lock === "1" && { // decorates speaker_locked regions
+            borderColor: "orangered",
+          }),
+          // locked: elem.locked,
         })
       ),
     };
