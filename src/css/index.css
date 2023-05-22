@@ -68,3 +68,33 @@ h1 {
 .remove-button:hover {
   color: #aaa;
 }
+
+#legend-container {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 2rem;
+}
+
+#legend-red {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin: 0 2rem 0 0.5rem;
+  border: 3px solid red;
+}
+
+#legend-yellow {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin: 0 2rem 0 0.5rem;
+  border: 3px solid yellow;
+}
+
+#legend-both {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin: 0 2rem 0 0.5rem;
+  border-width: 3px;
+  border-style: solid;
+  border-image: linear-gradient(red 45%, yellow 55%);
+  border-image-slice: 8;
+}

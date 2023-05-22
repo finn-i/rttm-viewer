@@ -80,6 +80,9 @@ const ChartViewer = () => {
     <>
       <div className="viewer-container">
         <h1>RTTM Viewer</h1>
+        <div id="legend-container">
+          Duration Lock:<div id="legend-red" />Speaker Lock:<div id="legend-yellow" />Both Lock:<div id="legend-both" />
+        </div>
         {chartData.map((data, index) => (
           <div className="chart-container" key={index}>
             <Bar data={data} options={options} />

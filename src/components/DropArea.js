@@ -4,7 +4,7 @@ const DropArea = ({ setChartData }) => {
 
 	const [hovering, setHovering] = useState(false);
 
-  let colours = ["#7B2D26", "#ef8a62", "#543005", "#8c510a", "#67a9cf", "#2166ac"];
+  let colours = ["#7B2D26", "#ef8a62", "#4d5405", "#1a5405", "#67a9cf", "#2166ac"];
   let colourMap = [];
 
   const getColour = (speaker) => {
@@ -79,6 +79,20 @@ const DropArea = ({ setChartData }) => {
       }
     });
 
+    let width, height, gradient;
+    const getGradient = (ctx, chartArea) => {
+      const chartWidth = chartArea.right - chartArea.left;
+      const chartHeight = chartArea.bottom - chartArea.top;
+      if (!gradient || width !== chartWidth || height !== chartHeight) {
+        width = chartWidth;
+        height = chartHeight;
+        gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+        gradient.addColorStop(0.45, "yellow");
+        gradient.addColorStop(0.65, "red");
+      }
+      return gradient;
+    }
+
     const chartDataEntry = {
       labels: [filename],
       datasets: regionData.map(elem => 
@@ -87,20 +101,25 @@ const DropArea = ({ setChartData }) => {
           data: [[elem.start, elem.end]],
           backgroundColor: getColour(elem.speaker),
           barThickness: 50,
-          borderWidth: 1,
-          borderColor: "#999",
+          borderWidth: 2,
+          borderColor: "#eee",
           hoverBorderColor: "#eee",
-          hoverBorderWidth: 2,
+          hoverBorderWidth: 3,
           ... (elem.dur_lock === "1" && { // decorates duration_locked regions
             borderColor: "red",
-            borderWidth: 3
+            borderWidth: 4
           }),
           ... (elem.spkr_lock === "1" && { // decorates speaker_locked regions
-            borderColor: "gold",
-            borderWidth: 3
+            borderColor: "yellow",
+            borderWidth: 4
           }),
           ... (elem.spkr_lock === "1" && elem.dur_lock === "1" && { // decorates speaker_locked regions
-            borderColor: "orangered",
+            borderColor: (context) => {
+            const chart = context.chart;
+            const {ctx, chartArea} = chart;
+            if (!chartArea) return;
+            return getGradient(ctx, chartArea);
+          },
           }),
           // locked: elem.locked,
         })
