@@ -4,15 +4,15 @@ const DropArea = ({ setChartData }) => {
 
 	const [hovering, setHovering] = useState(false);
 
-  let colours = ["#7B2D26", "#ef8a62", "#4d5405", "#1a5405", "#67a9cf", "#2166ac"];
+  // let colours = ["#e6cc27", "#ef8a62", "#4d5405", "#1a5405", "#2a357a", "#2166ac"];
+  let colours = ["#2C5F2D", "#97BC62", "#966d48", "#4a3420", "#DAA03D", "#70511c"];
   let colourMap = [];
 
   const getColour = (speaker) => {
-    let colour;
-    if (colourMap.some(e => e.speaker == speaker)) {
-      for (const item of colourMap) if (item.speaker == speaker) colour = item.colour;
-    }
-    else {
+    let colour = [];
+    if (colourMap.some(e => speaker.includes(e.speaker))) {
+      for (const item of colourMap) if (speaker.includes(item.speaker)) colour.push(item.colour);
+    } else {
       colour = colours[(colourMap.length) % colours.length] + "E6";
       colourMap.push({speaker: speaker, colour: colour});
     }
@@ -80,15 +80,16 @@ const DropArea = ({ setChartData }) => {
     });
 
     let width, height, gradient;
-    const getGradient = (ctx, chartArea) => {
+    const getGradient = (ctx, chartArea, colours) => {
       const chartWidth = chartArea.right - chartArea.left;
       const chartHeight = chartArea.bottom - chartArea.top;
-      if (!gradient || width !== chartWidth || height !== chartHeight) {
-        width = chartWidth;
-        height = chartHeight;
-        gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-        gradient.addColorStop(0.45, "yellow");
-        gradient.addColorStop(0.65, "red");
+      width = chartWidth;
+      height = chartHeight;
+      gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+      let num = 0.50;
+      for (const col of colours.reverse()) {
+        gradient.addColorStop(num, col);
+        num += 1 - (num * 2);
       }
       return gradient;
     }
@@ -99,29 +100,35 @@ const DropArea = ({ setChartData }) => {
         ({
           label: elem.speaker,
           data: [[elem.start, elem.end]],
-          backgroundColor: getColour(elem.speaker),
+          // backgroundColor: getColour(elem.speaker),
+          backgroundColor: (context) => {
+            const colours = getColour(elem.speaker);
+            // console.log(colours + " : " + elem.speaker);
+            if (colours.length > 1) {
+              const chart = context.chart;
+              const {ctx, chartArea} = chart;
+              if (!chartArea) return;
+              return getGradient(ctx, chartArea, colours);
+            } else {
+              return colours[0];
+            }
+          },
           barThickness: 50,
-          borderWidth: 2,
+          borderWidth: 0,
           borderColor: "#eee",
           hoverBorderColor: "#eee",
           hoverBorderWidth: 3,
           ... (elem.dur_lock === "1" && { // decorates duration_locked regions
-            borderColor: "red",
-            borderWidth: 4
+            borderColor: "rgb(200, 50, 70)",
+            borderWidth: 4,
           }),
           ... (elem.spkr_lock === "1" && { // decorates speaker_locked regions
-            borderColor: "yellow",
-            borderWidth: 4
+            borderColor: "rgb(56, 64, 170)",
+            borderWidth: 4,
           }),
           ... (elem.spkr_lock === "1" && elem.dur_lock === "1" && { // decorates speaker_locked regions
-            borderColor: (context) => {
-            const chart = context.chart;
-            const {ctx, chartArea} = chart;
-            if (!chartArea) return;
-            return getGradient(ctx, chartArea);
-          },
+          borderColor: "rgb(128, 57, 120)",
           }),
-          // locked: elem.locked,
         })
       ),
     };

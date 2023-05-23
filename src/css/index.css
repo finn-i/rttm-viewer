@@ -1,9 +1,14 @@
+:root {
+  --primary: rgb(56, 64, 170);
+  --secondary: rgb(200, 50, 70);
+}
+
 body {
   margin: 0;
   font-family: 'Montserrat';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgba(30, 30, 30);
+  background-color: rgba(25, 25, 25);
   padding: 3rem;
   color: #eee;
 }
@@ -19,7 +24,7 @@ h1 {
 }
 
 #drag-drop {
-  border-image: linear-gradient(rgb(125, 115, 187), rgba(200, 50, 100)) 1;
+  border-image: linear-gradient(var(--primary), var(--secondary)) 1;
   border-width: 2px;
   border-style: solid;
   background-color: rgba(255, 255, 255, 0.075);
@@ -33,6 +38,7 @@ h1 {
 	justify-content: center;
 	align-items: center;
   transition: 0.2s ease-in-out;
+  user-select: none;
 }
 
 #drag-drop a:hover {
@@ -72,29 +78,32 @@ h1 {
 #legend-container {
   display: flex;
   flex-direction: row;
-  padding-bottom: 2rem;
+  padding: 1rem 0 2rem 0;
+  color: #aaa;
+  user-select: none;
 }
 
 #legend-red {
   width: 0.75rem;
   height: 0.75rem;
   margin: 0 2rem 0 0.5rem;
-  border: 3px solid red;
+  border: 3px solid var(--secondary);
 }
 
 #legend-yellow {
   width: 0.75rem;
   height: 0.75rem;
   margin: 0 2rem 0 0.5rem;
-  border: 3px solid yellow;
+  border: 3px solid var(--primary);
 }
 
 #legend-both {
   width: 0.75rem;
   height: 0.75rem;
   margin: 0 2rem 0 0.5rem;
-  border-width: 3px;
+  border: 3px solid rgb(128, 57, 120);
+  /* border-width: 3px;
   border-style: solid;
-  border-image: linear-gradient(red 45%, yellow 55%);
-  border-image-slice: 8;
+  border-image: linear-gradient(var(--secondary) 45%, var(--primary) 55%);
+  border-image-slice: 5; */
 }
