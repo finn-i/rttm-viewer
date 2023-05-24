@@ -69,10 +69,12 @@ h1 {
 .remove-button {
   cursor: pointer;
   font-size: 1.5rem;
+  opacity: 0.5;
 }
 
 .remove-button:hover {
-  color: #aaa;
+  color: #eee;
+  opacity: 1;
 }
 
 #legend-container {

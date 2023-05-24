@@ -9,8 +9,21 @@ const ChartViewer = () => {
   Chart.defaults.font.size = 16;
   
   const [chartData, setChartData] = useState([]);
-
   const options = {
+    animations: {
+      y: {
+        duration: 850,
+        easing: 'easeInOutElastic',
+        from: (ctx) => {
+          if (ctx.type === 'data') {
+            if (ctx.mode === 'default' && !ctx.dropped) {
+              ctx.dropped = true;
+              return 0;
+            }
+          }
+        }
+      }
+    },
     indexAxis: "y",
     maintainAspectRatio: false,
     responsive: true,
@@ -18,14 +31,9 @@ const ChartViewer = () => {
       x: {
         ticks: (ad) => {
           const canvasParent = ad.scale.ctx.canvas.parentElement;
-          if (
-            Array.from(canvasParent.parentElement.children).indexOf(
-              canvasParent
-            ) ==
-            canvasParent.parentElement.childElementCount - 1
-          )
+          if (Array.from(canvasParent.parentElement.children).indexOf(canvasParent) == canvasParent.parentElement.childElementCount - 1) {
             return { color: "#eee" };
-          else return { color: "transparent" };
+          } else return { color: "transparent" };
         },
         grid: { color: "#555", drawBorder: false },
       },
@@ -33,17 +41,13 @@ const ChartViewer = () => {
     },
     plugins: {
       tooltip: {
+        animation: {
+          duration: 100,
+        },
         callbacks: {
           title: () => null,
           label: (content) => {
-            return (
-              content.dataset.label +
-              ": " +
-              content.raw[0] +
-              " - " +
-              content.raw[1] +
-              "s"
-            );
+            return (" " + content.dataset.label + ": " + content.raw[0] + " - " + content.raw[1] + "s");
           },
         },
       },

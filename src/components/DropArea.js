@@ -6,14 +6,14 @@ const DropArea = ({ setChartData }) => {
 
   // let colours = ["#e6cc27", "#ef8a62", "#4d5405", "#1a5405", "#2a357a", "#2166ac"];
   let colours = ["#2C5F2D", "#97BC62", "#966d48", "#4a3420", "#DAA03D", "#70511c"];
-  let colourMap = [];
+  let colourMap = []; // TODO: utilize useState, should allow for file additions
 
   const getColour = (speaker) => {
     let colour = [];
     if (colourMap.some(e => speaker.includes(e.speaker))) {
       for (const item of colourMap) if (speaker.includes(item.speaker)) colour.push(item.colour);
     } else {
-      colour = colours[(colourMap.length) % colours.length] + "E6";
+      colour.push(colours[(colourMap.length) % colours.length] + "E6");
       colourMap.push({speaker: speaker, colour: colour});
     }
     return colour;
@@ -103,7 +103,6 @@ const DropArea = ({ setChartData }) => {
           // backgroundColor: getColour(elem.speaker),
           backgroundColor: (context) => {
             const colours = getColour(elem.speaker);
-            // console.log(colours + " : " + elem.speaker);
             if (colours.length > 1) {
               const chart = context.chart;
               const {ctx, chartArea} = chart;
