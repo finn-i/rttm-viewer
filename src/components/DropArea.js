@@ -13,7 +13,7 @@ const DropArea = ({ setChartData }) => {
     if (colourMap.some(e => speaker.includes(e.speaker))) {
       for (const item of colourMap) if (speaker.includes(item.speaker)) colour.push(item.colour);
     } else {
-      colour.push(colours[(colourMap.length) % colours.length] + "E6");
+      colour.push(colours[(colourMap.length) % colours.length]); //  + "E6"
       colourMap.push({speaker: speaker, colour: colour});
     }
     return colour;

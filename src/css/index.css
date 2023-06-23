@@ -104,8 +104,4 @@ h1 {
   height: 0.75rem;
   margin: 0 2rem 0 0.5rem;
   border: 3px solid rgb(128, 57, 120);
-  /* border-width: 3px;
-  border-style: solid;
-  border-image: linear-gradient(var(--secondary) 45%, var(--primary) 55%);
-  border-image-slice: 5; */
 }
