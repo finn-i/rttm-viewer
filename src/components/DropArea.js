@@ -57,7 +57,8 @@ const DropArea = ({ setChartData }) => {
       reader.onload = (e) => {
         const rttmData = e.target.result;
         const chartDataEntry = processRTTMData(rttmData, files[i].name);
-        setChartData((prevChartData) => [...prevChartData, chartDataEntry]);
+        // setChartData((prevChartData) => [...prevChartData, chartDataEntry]);
+        setChartData((prevChartData) => [...prevChartData, chartDataEntry].sort((a,b)=>(a.labels[0] > b.labels[0]) ? 1 : -1)); // sort by file name
       };
       reader.readAsText(files[i]);
     }
@@ -129,7 +130,7 @@ const DropArea = ({ setChartData }) => {
           borderColor: "rgb(128, 57, 120)",
           }),
         })
-      ),
+      ), 
     };
     return chartDataEntry;
   }
